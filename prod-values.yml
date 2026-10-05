@@ -1,0 +1,61 @@
+namespace: userdata
+
+postgres:
+  host: postgres-vip.company.com
+  port: 5432
+  database: userdata_prod
+  user: appuser
+  password: CHANGE_ME
+
+home:
+  replicaCount: 3
+
+  image:
+    repository: gajender07070707/userdata-home
+    tag: v1.0.0
+
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+submit:
+  replicaCount: 3
+
+  image:
+    repository: gajender07070707/userdata-submit
+    tag: v1.0.0
+
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+fetch:
+  replicaCount: 3
+
+  image:
+    repository: gajender07070707/userdata-fetch
+    tag: v1.0.0
+
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+ingress:
+  enabled: true
+  className: nginx
+  host: 

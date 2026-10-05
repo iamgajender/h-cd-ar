@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: submit-deployment
+  namespace: {{ .Values.namespace }}
+
+spec:
+  replicas: {{ .Values.submit.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: submit
+
+  template:
+    metadata:
+      labels:
+        app: submit
+
+    spec:
+      containers:
+      - name: submit
+
+        image: "{{ .Values.submit.image.repository }}:{{ .Values.submit.image.tag }}"
+
+        imagePullPolicy: {{ .Values.submit.image.pullPolicy }}
+
+        ports:
+        - containerPort: 8080
+
+        envFrom:
+        - configMapRef:
+            name: userdata-db-config
+
+        - secretRef:
+            name: postgres-secret
+
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+
+          initialDelaySeconds: 5
+
+        resources:
+{{ toYaml .Values.submit.resources | indent 10 }}

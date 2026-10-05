@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: userdata-db-config
+  namespace: {{ .Values.namespace }}
+
+data:
+  POSTGRES_HOST: "{{ .Values.postgres.host }}"
+  POSTGRES_PORT: "{{ .Values.postgres.port }}"

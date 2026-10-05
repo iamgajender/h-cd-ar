@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: submit-service
+  namespace: {{ .Values.namespace }}
+
+spec:
+  selector:
+    app: submit
+
+  ports:
+  - port: {{ .Values.submit.service.port }}
+    targetPort: {{ .Values.submit.service.targetPort }}
+
+  type: ClusterIP

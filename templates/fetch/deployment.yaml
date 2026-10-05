@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: fetch-deployment
+  namespace: {{ .Values.namespace }}
+
+spec:
+  replicas: {{ .Values.fetch.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: fetch
+
+  template:
+    metadata:
+      labels:
+        app: fetch
+
+    spec:
+      containers:
+      - name: fetch
+
+        image: "{{ .Values.fetch.image.repository }}:{{ .Values.fetch.image.tag }}"
+
+        imagePullPolicy: {{ .Values.fetch.image.pullPolicy }}
+
+        ports:
+        - containerPort: 8080
+
+        envFrom:
+        - configMapRef:
+            name: userdata-db-config
+
+        - secretRef:
+            name: postgres-secret
+
+        resources:
+{{ toYaml .Values.fetch.resources | indent 10 }}

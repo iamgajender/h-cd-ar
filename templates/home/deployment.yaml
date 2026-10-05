@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: home-deployment
+  namespace: {{ .Values.namespace }}
+
+spec:
+  replicas: {{ .Values.home.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: home
+
+  template:
+    metadata:
+      labels:
+        app: home
+
+    spec:
+      containers:
+      - name: home
+
+        image: "{{ .Values.home.image.repository }}:{{ .Values.home.image.tag }}"
+
+        imagePullPolicy: {{ .Values.home.image.pullPolicy }}
+
+        ports:
+        - containerPort: 8080
+
+        envFrom:
+        - configMapRef:
+            name: userdata-db-config
+
+        - secretRef:
+            name: postgres-secret
+
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+
+          initialDelaySeconds: 5
+
+        resources:
+{{ toYaml .Values.home.resources | indent 10 }}

@@ -1,0 +1,75 @@
+namespace: userdata-dev
+
+postgres:
+  host: 10.1.1.105
+  port: 5432
+  database: userdata_dev
+  user: postgres
+  password: postgres
+
+home:
+  replicaCount: 2
+
+  image:
+    repository: gajender07070707/userdata-home
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  service:
+    port: 80
+    targetPort: 8080
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+submit:
+  replicaCount: 3
+
+  image:
+    repository: gajender07070707/userdata-submit
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  service:
+    port: 80
+    targetPort: 8080
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+fetch:
+  replicaCount: 2
+
+  image:
+    repository: gajender07070707/userdata-fetch
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  service:
+    port: 80
+    targetPort: 8080
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+ingress:
+  enabled: true
+  className: nginx
