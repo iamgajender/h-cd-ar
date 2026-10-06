@@ -8,7 +8,7 @@ postgres:
   password: postgres
 
 home:
-  replicaCount: 2
+  replicaCount: 5
 
   image:
     repository: gajender07070707/userdata-home
